@@ -1,4 +1,11 @@
+import Sidebar from './Sidebar';
+
 const Layout = ({ children }) => {
-  return <main>{children}</main>;
+  return (
+    <>
+      <Sidebar />
+      <main>{children}</main>
+    </>
+  );
 };
 export default Layout;
