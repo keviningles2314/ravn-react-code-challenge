@@ -12,8 +12,12 @@ const Home = () => {
           </div>
         </div>
         <div className="flex gap-5 box-border overflow-x-scroll overflow-y-scroll w-11/12 h-screen">
-          {statusArray.map((item) => {
-            return <ColumnItem title={item} />;
+          {statusArray.map((item, index) => {
+            return (
+              <div key={index}>
+                <ColumnItem title={item} />
+              </div>
+            );
           })}
         </div>
       </div>

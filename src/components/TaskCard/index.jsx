@@ -1,4 +1,21 @@
+import { useEffect, useState } from 'react';
+import { dayHandler } from '../../helper/dayHandler';
+
 const TaskCard = ({ itemCard }) => {
+  const itemDueDate = dayHandler(itemCard.dueDate);
+
+  const [timeStyle, setTimeStyle] = useState('');
+
+  useEffect(() => {
+    if (itemDueDate === 'Yesterday') {
+      setTimeStyle('text-red-500 bg-[#DA584B]');
+    } else if (itemDueDate === 'Today' || itemDueDate === 'Tomorrow') {
+      setTimeStyle('bg-[#E5B454]');
+    } else {
+      setTimeStyle('bg-[#94979A]');
+    }
+  }, [itemDueDate]);
+
   return (
     <div className="p-6 bg-[#2C2F33] flex flex-col w-80 gap-2.5 rounded-lg">
       <div className="flex w-full">
@@ -8,9 +25,9 @@ const TaskCard = ({ itemCard }) => {
         </div>
       </div>
       <div className="flex w-full">
-        <h1>Points</h1>
+        <h1>{itemCard.pointEstimate}</h1>
         <div className="flex w-full justify-end">
-          <button className="flex p-2 bg-[#94979A] rounded-sm">
+          <button className={`flex p-2 rounded-sm ${timeStyle}`}>
             <svg
               width="22"
               height="20"
@@ -23,17 +40,23 @@ const TaskCard = ({ itemCard }) => {
                 fill="white"
               />
             </svg>
-            Today
+            {itemDueDate}
           </button>
         </div>
       </div>
-      <div className="flex w-full">
-        <p className="p-2 bg-green-500/10 text-[#70B252]">Tags</p>
+      <div className="flex w-full gap-2">
+        {itemCard.tags.map((item, index) => {
+          return (
+            <div key={index}>
+              <p className="p-2 bg-green-500/10 text-[#70B252]">{item}</p>
+            </div>
+          );
+        })}
       </div>
       <div className="flex w-full">
         <img
           className="w-10 h-10 rounded-full"
-          src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"
+          src={itemCard.assignee.avatar}
           alt="user"
         />
       </div>
