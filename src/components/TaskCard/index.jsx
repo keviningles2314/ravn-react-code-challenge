@@ -8,11 +8,11 @@ const TaskCard = ({ itemCard }) => {
 
   useEffect(() => {
     if (itemDueDate === 'Yesterday') {
-      setTimeStyle('text-red-500 bg-[#DA584B]');
+      setTimeStyle('text-[#DA584B] bg-red-500/10');
     } else if (itemDueDate === 'Today' || itemDueDate === 'Tomorrow') {
-      setTimeStyle('bg-[#E5B454]');
+      setTimeStyle('text-[#E5B454] bg-yellow-500/10');
     } else {
-      setTimeStyle('bg-[#94979A]');
+      setTimeStyle('bg-gray-500/10');
     }
   }, [itemDueDate]);
 
@@ -21,13 +21,13 @@ const TaskCard = ({ itemCard }) => {
       <div className="flex w-full">
         <h1>{itemCard.name}</h1>
         <div className="flex w-full justify-end">
-          <p>...</p>
+          <button>...</button>
         </div>
       </div>
       <div className="flex w-full">
         <h1>{itemCard.pointEstimate}</h1>
         <div className="flex w-full justify-end">
-          <button className={`flex p-2 rounded-sm ${timeStyle}`}>
+          <button className={`flex p-2 gap-2.5 rounded-sm ${timeStyle}`}>
             <svg
               width="22"
               height="20"
@@ -48,7 +48,12 @@ const TaskCard = ({ itemCard }) => {
         {itemCard.tags.map((item, index) => {
           return (
             <div key={index}>
-              <p className="p-2 bg-green-500/10 text-[#70B252]">{item}</p>
+              {index % 2 === 0 && (
+                <p className="p-2 bg-green-500/10 text-[#70B252]">{item}</p>
+              )}
+              {index % 2 !== 0 && (
+                <p className="p-2 bg-yellow-500/10 text-[#E5B454]">{item}</p>
+              )}
             </div>
           );
         })}

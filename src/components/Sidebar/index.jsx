@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 const Sidebar = () => {
   return (
-    <div className="bg-[#2C2F33] rounded-3xl flex flex-col gap-5 items-center h-screen">
+    <div className="bg-[#2C2F33] rounded-3xl flex flex-col gap-5 items-center">
       <div className="p-2.5">
         <svg
           width="40"

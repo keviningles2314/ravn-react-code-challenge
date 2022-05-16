@@ -5,13 +5,8 @@ const Home = () => {
   const statusArray = ['BACKLOG', 'CANCELLED', 'DONE', 'IN_PROGRESS', 'TODO'];
   return (
     <Layout>
-      <div className="flex flex-col box-border flex-grow h-screen w-11/12">
-        <div className="w-full flex justify-end box-border">
-          <div className="bg-[#DA584B] w-8 h-8 rounded-lg box-border flex items-center justify-center text-lg">
-            <h1>+</h1>
-          </div>
-        </div>
-        <div className="flex gap-5 box-border overflow-x-scroll overflow-y-scroll w-11/12 h-screen">
+      <div className="flex flex-col box-border flex-grow ">
+        <div className="flex gap-5 box-border flex-wrap ">
           {statusArray.map((item, index) => {
             return (
               <div key={index}>
