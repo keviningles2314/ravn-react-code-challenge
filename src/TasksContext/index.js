@@ -2,9 +2,11 @@ import { createContext, useContext, useEffect, useReducer } from 'react';
 import { useGetTasks } from '../api/UseRequest';
 import { tasksReducer } from './tasksReducer';
 import { SET_TASKS } from './types';
+
 export const tasksInitialState = {
   tasks: [],
   isLoading: true,
+  isOpenModal: false,
 };
 
 const TasksContext = createContext();
@@ -21,6 +23,7 @@ export const TasksProvider = ({ children }) => {
 
   const value = {
     ...state,
+    dispatch,
   };
   return (
     <TasksContext.Provider value={value}>{children}</TasksContext.Provider>
