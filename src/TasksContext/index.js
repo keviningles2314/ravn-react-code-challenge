@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useReducer } from 'react';
-import { useGetTasks } from '../api/UseRequest';
+import { useGetTasks } from '../graphql/UseRequest';
 import { tasksReducer } from './tasksReducer';
 import { SET_TASKS } from './types';
 
