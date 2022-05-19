@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .react-datepicker__month-container1 {
+    @apply bg-red-500;
+  }
+}
