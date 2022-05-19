@@ -2,15 +2,24 @@ import { Menu, Transition } from '@headlessui/react';
 import { Fragment, useEffect, useRef, useState } from 'react';
 import DeleteIcon from '../../assets/icons/DeleteIcon';
 import EditIcon from '../../assets/icons/EditIcon';
+import { useTasks } from '../../TasksContext';
 
 const OptionButton = ({ taskId }) => {
+  const { setTaskDelete, deleteTask } = useTasks();
+
   const handleDelete = () => {
-    console.log(taskId);
+    deleteTask();
+  };
+  const handleClick = () => {
+    setTaskDelete(taskId);
   };
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
-        <Menu.Button className="font-bold text-[18px] inline-flex w-full justify-center rounded-md px-4 py-2 text-sm text-gray-400 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+        <Menu.Button
+          onClick={handleClick}
+          className="font-bold text-[18px] inline-flex w-full justify-center rounded-md px-4 py-2 text-sm text-gray-400 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+        >
           . . .
         </Menu.Button>
       </div>

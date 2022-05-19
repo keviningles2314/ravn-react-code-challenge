@@ -6,7 +6,7 @@ import {
   useReducer,
   useState,
 } from 'react';
-import { ADD_TASK_MUTATION } from '../graphql/mutations';
+import { ADD_TASK_MUTATION, DELETE_TASK_MUTATION } from '../graphql/mutations';
 import { useGetTasks } from '../hooks/UseRequest';
 import { tasksReducer } from './tasksReducer';
 import { SET_TASKS } from './types';
@@ -22,6 +22,8 @@ const TasksContext = createContext();
 export const TasksProvider = ({ children }) => {
   const [state, dispatch] = useReducer(tasksReducer, tasksInitialState);
   const [dataAdded, setDataAdded] = useState('');
+  const [dataDeleted, setDataDeleted] = useState('');
+  const [taskDelete, setTaskDelete] = useState('');
   const [dataForm, setDataForm] = useState({
     name: '',
     points: '',
@@ -64,7 +66,17 @@ export const TasksProvider = ({ children }) => {
   useEffect(() => {
     setDataAdded(dataAdd);
   }, [dataAdd]);
-  console.log(dataAdded);
+
+  const [deleteTask, { data: dataDelete }] = useMutation(DELETE_TASK_MUTATION, {
+    variables: {
+      id: taskDelete,
+    },
+    onCompleted: refetch,
+  });
+  useEffect(() => {
+    setDataDeleted(dataDelete);
+  }, [dataDelete]);
+
   const value = {
     ...state,
     dispatch,
@@ -74,6 +86,11 @@ export const TasksProvider = ({ children }) => {
     addTask,
     refetch,
     dataAdded,
+    dataDeleted,
+    setTaskDelete,
+    deleteTask,
+    setDataAdded,
+    setDataDeleted,
   };
   return (
     <TasksContext.Provider value={value}>{children}</TasksContext.Provider>
