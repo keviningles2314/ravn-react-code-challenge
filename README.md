@@ -15,6 +15,7 @@ Then **run a npm start** or **npm run start**
 ## Create a .env file
 
 Create a **_.env_** file in the root directory and declare the token as **REACT_APP_AUTH_TOKEN**
+Where you need to put the **authorization** token
 
 # Project description
 
