@@ -8,10 +8,50 @@ import { TAGS_QUERY } from '../../graphql/request';
 import ListMenu from '../ListMenu';
 import DueDate from '../DueDate';
 import TagsList from '../TagsList';
+import PointsIcon from '../../assets/icons/PointsIcon';
+import UserIcon from '../../assets/icons/UserIcon';
+import TagIcon from '../../assets/icons/TagIcon';
+import { useEffect, useState } from 'react';
+
 const TaskModal = () => {
   const { data: pointsData, loading: pointLoading } = useQuery(POINT_QUERY);
   const { data: usersData, loading: userLoading } = useQuery(USERS_QUERY);
   const { data: tagsData, loading: tagLoading } = useQuery(TAGS_QUERY);
+  const { isOpenModal, dispatch, setDataForm, dataForm, emptyData } =
+    useTasks();
+  const [isDataFilled, setIsDataFilled] = useState(false);
+
+  useEffect(() => {
+    if (
+      dataForm.name !== '' &&
+      dataForm.points !== '' &&
+      dataForm.assignee !== '' &&
+      dataForm.tags.length !== 0
+    ) {
+      setIsDataFilled(true);
+    } else {
+      setIsDataFilled(false);
+    }
+  }, [dataForm]);
+
+  const customStyles = {
+    content: {
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)',
+      backgroundColor: '#393D41',
+      color: '#FFFFFF',
+      fontSize: '15px',
+      borderColor: '#2D3034',
+      overflow: 'visible',
+    },
+    overlay: {
+      background: 'rgba(57, 61, 65, 0.7)',
+    },
+  };
 
   let pointsArray;
   let usersArray;
@@ -28,69 +68,21 @@ const TaskModal = () => {
     tagsArray = tagsData.__type.enumValues;
   }
 
-  const pointIcon = (
-    <svg
-      width="20"
-      height="18"
-      viewBox="0 0 20 18"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M1 0H19C19.2652 0 19.5196 0.105357 19.7071 0.292893C19.8946 0.48043 20 0.734784 20 1V17C20 17.2652 19.8946 17.5196 19.7071 17.7071C19.5196 17.8946 19.2652 18 19 18H1C0.734784 18 0.48043 17.8946 0.292893 17.7071C0.105357 17.5196 0 17.2652 0 17V1C0 0.734784 0.105357 0.48043 0.292893 0.292893C0.48043 0.105357 0.734784 0 1 0ZM7 8V6H5V8H3V10H5V12H7V10H9V8H7ZM11 8V10H17V8H11Z"
-        fill="white"
-      />
-    </svg>
-  );
-  const userIcon = (
-    <svg
-      width="16"
-      height="21"
-      viewBox="0 0 16 21"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M16 21H0V19C0 17.6739 0.526784 16.4021 1.46447 15.4645C2.40215 14.5268 3.67392 14 5 14H11C12.3261 14 13.5979 14.5268 14.5355 15.4645C15.4732 16.4021 16 17.6739 16 19V21ZM8 12C7.21207 12 6.43185 11.8448 5.7039 11.5433C4.97595 11.2417 4.31451 10.7998 3.75736 10.2426C3.20021 9.68549 2.75825 9.02405 2.45672 8.2961C2.15519 7.56815 2 6.78793 2 6C2 5.21207 2.15519 4.43185 2.45672 3.7039C2.75825 2.97595 3.20021 2.31451 3.75736 1.75736C4.31451 1.20021 4.97595 0.758251 5.7039 0.456723C6.43185 0.155195 7.21207 -1.17411e-08 8 0C9.5913 2.37122e-08 11.1174 0.632141 12.2426 1.75736C13.3679 2.88258 14 4.4087 14 6C14 7.5913 13.3679 9.11742 12.2426 10.2426C11.1174 11.3679 9.5913 12 8 12Z"
-        fill="white"
-      />
-    </svg>
-  );
-  const tagIcon = (
-    <svg
-      width="22"
-      height="21"
-      viewBox="0 0 22 21"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M9.89997 0.100006L19.799 1.51501L21.213 11.415L12.021 20.607C11.8334 20.7945 11.5791 20.8998 11.314 20.8998C11.0488 20.8998 10.7945 20.7945 10.607 20.607L0.706971 10.707C0.5195 10.5195 0.414185 10.2652 0.414185 10C0.414185 9.73484 0.5195 9.48053 0.706971 9.29301L9.89997 0.100006ZM12.728 8.58601C12.9137 8.7717 13.1342 8.91898 13.3769 9.01945C13.6196 9.11992 13.8797 9.1716 14.1423 9.17156C14.405 9.17151 14.665 9.11973 14.9077 9.01918C15.1503 8.91862 15.3708 8.77126 15.5565 8.58551C15.7422 8.39975 15.8894 8.17924 15.9899 7.93657C16.0904 7.69389 16.1421 7.4338 16.142 7.17115C16.142 6.9085 16.0902 6.64843 15.9896 6.40579C15.8891 6.16315 15.7417 5.9427 15.556 5.75701C15.3702 5.57132 15.1497 5.42403 14.907 5.32356C14.6644 5.22309 14.4043 5.17141 14.1416 5.17145C13.6112 5.17155 13.1025 5.38236 12.7275 5.75751C12.3525 6.13266 12.1418 6.64141 12.1419 7.17186C12.142 7.70231 12.3528 8.21099 12.728 8.58601Z"
-        fill="white"
-      />
-    </svg>
-  );
-
-  const { isOpenModal, dispatch } = useTasks();
-  const customStyles = {
-    content: {
-      top: '50%',
-      left: '50%',
-      right: 'auto',
-      bottom: 'auto',
-      marginRight: '-50%',
-      transform: 'translate(-50%, -50%)',
-      backgroundColor: '#393D41',
-      color: '#FFFFFF',
-      fontSize: '15px',
-      borderColor: '#2D3034',
-    },
-    overlay: {
-      background: 'rgba(57, 61, 65, 0.7)',
-    },
+  const handleSubmit = () => {
+    if (isDataFilled) {
+      console.log(dataForm);
+    }
   };
+
   const closeModal = () => {
     dispatch({ type: OPEN_MODAL, payload: false });
+    emptyData();
+  };
+  const handleTextChange = (event) => {
+    setDataForm({
+      ...dataForm,
+      name: event.target.value,
+    });
   };
   return (
     <>
@@ -106,28 +98,44 @@ const TaskModal = () => {
               className="focus:!border-none bg-transparent p-2 focus:!outline-0"
               type="text"
               placeholder="Task Title"
+              onChange={handleTextChange}
             />
           </div>
           <div className="relative flex gap-5 items-center">
             <ListMenu
-              icon={pointIcon}
+              icon={<PointsIcon />}
               itemData={pointsArray}
               itemTitle={'Estimate'}
-              initialVal={''}
+              dataForm={dataForm}
+              setDataForm={setDataForm}
             />
 
             <ListMenu
-              icon={userIcon}
+              icon={<UserIcon />}
               itemData={usersArray}
               itemTitle={'Assignee'}
-              initialVal={''}
+              dataForm={dataForm}
+              setDataForm={setDataForm}
             />
-            <TagsList itemData={tagsArray} itemTitle={'Label'} icon={tagIcon} />
-            <DueDate />
+            <TagsList
+              itemData={tagsArray}
+              itemTitle={'Label'}
+              icon={<TagIcon />}
+              dataForm={dataForm}
+              setDataForm={setDataForm}
+            />
+            <DueDate dataForm={dataForm} setDataForm={setDataForm} />
           </div>
           <div className="flex gap-2.5 justify-end">
             <button onClick={closeModal}>Cancel</button>
-            <button className="bg-red-500/25 p-2 rounded-md cursor-not-allowed">
+            <button
+              onClick={handleSubmit}
+              className={`p-2 rounded-md ${
+                isDataFilled
+                  ? 'cursor-pointer bg-red-500'
+                  : 'bg-red-500/25 cursor-not-allowed'
+              }`}
+            >
               Create
             </button>
           </div>

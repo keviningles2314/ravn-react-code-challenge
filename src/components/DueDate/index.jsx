@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { forwardRef } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-const DueDate = () => {
+const DueDate = ({ dataForm, setDataForm }) => {
   const [startDate, setStartDate] = useState(0);
   const ExampleCustomInput = forwardRef(({ value, onClick }, ref) => (
     <button
@@ -26,11 +26,20 @@ const DueDate = () => {
       {startDate !== 0 ? value : 'Due date'}
     </button>
   ));
+
+  const handleClick = (date) => {
+    setStartDate(date);
+    setDataForm({
+      ...dataForm,
+      dueDate: date,
+    });
+  };
+
   return (
     <>
       <DatePicker
         selected={startDate}
-        onChange={(date) => setStartDate(date)}
+        onChange={(date) => handleClick(date)}
         customInput={<ExampleCustomInput />}
         dateFormat="MMM. d, yyyy"
         minDate={subDays(new Date(), 0)}

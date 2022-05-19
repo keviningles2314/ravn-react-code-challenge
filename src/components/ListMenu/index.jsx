@@ -1,16 +1,38 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { Listbox, Transition } from '@headlessui/react';
 import wordsToNumbers from 'words-to-numbers';
 import { getObjectData } from '../../utils/objectCreation';
 
-const ListMenu = ({ icon, itemData, itemTitle }) => {
+const ListMenu = ({
+  icon,
+  itemData,
+  itemTitle,
+  dataForm,
+  setDataForm,
+  stateToChange,
+}) => {
   const objectItem = getObjectData(icon, itemData, itemTitle);
   const [selected, setSelected] = useState('');
+
+  const handleChange = (item) => {
+    setSelected(item);
+    if (itemTitle === 'Estimate') {
+      setDataForm({
+        ...dataForm,
+        points: item.numberName,
+      });
+    } else {
+      setDataForm({
+        ...dataForm,
+        assignee: item.id,
+      });
+    }
+  };
 
   return (
     <Listbox
       value={selected}
-      onChange={setSelected}
+      onChange={(item) => handleChange(item)}
       multiple={itemTitle !== 'Label' ? '' : 'multiple'}
     >
       <div className="relative mt-1">

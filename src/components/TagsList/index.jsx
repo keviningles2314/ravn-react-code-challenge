@@ -1,21 +1,22 @@
 import React, { useState } from 'react';
 import { Listbox, Transition } from '@headlessui/react';
 
-const TagsList = ({ itemData, itemTitle, icon }) => {
+const TagsList = ({ itemData, itemTitle, icon, dataForm, setDataForm }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedTags, setSelectedTags] = useState([]);
 
   function isSelected(value) {
-    return selectedTags.find((el) => el.tagName === value) ? true : false;
+    return selectedTags.find((el) => el === value) ? true : false;
   }
 
   function handleSelect(value) {
     if (!isSelected(value)) {
       const selectedTagsUpdated = [
         ...selectedTags,
-        itemData.find((el) => el.tagName === value),
+        itemData.find((el) => el.tagName === value).tagName,
       ];
       setSelectedTags(selectedTagsUpdated);
+      setDataForm({ ...dataForm, tags: selectedTagsUpdated });
     } else {
       handleDeselect(value);
     }
@@ -23,10 +24,9 @@ const TagsList = ({ itemData, itemTitle, icon }) => {
   }
 
   function handleDeselect(value) {
-    const selectedTagsUpdated = selectedTags.filter(
-      (el) => el.tagName !== value
-    );
+    const selectedTagsUpdated = selectedTags.filter((el) => el !== value);
     setSelectedTags(selectedTagsUpdated);
+    setDataForm({ ...dataForm, tags: selectedTagsUpdated });
     setIsOpen(true);
   }
 
@@ -48,7 +48,7 @@ const TagsList = ({ itemData, itemTitle, icon }) => {
               {icon}
               {selectedTags.length < 1
                 ? itemTitle
-                : `${selectedTags[0].tagName} (${selectedTags.length})`}
+                : `${selectedTags[0]} (${selectedTags.length})`}
             </span>
           </Listbox.Button>
         </span>
