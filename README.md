@@ -22,29 +22,40 @@ A React web application using GraphQl where you can view, add and delete a task.
 
 # Gifs or screenshots of the working application.
 
-- Home view
+- Home view:
+
   ![Home](/src/assets/images/part1.png)
 
-- A Task card and status
+- A Task card and status:
+
   ![Task](/src/assets/images/part2.png)
 
-- Task card menu
+- Task card menu:
+
   ![Task menu](/src/assets/images/part3.png)
 
-- Complete view of create task modal
+- Complete view of create task modal:
+
   ![Add Modal](/src/assets/images/part4.png)
 
-- A detailed view create task modal
+- A detailed view create task modal:
+
   ![detailed add modal](/src/assets/images/part5.png)
 
-- view of fields and menus
+- view of fields and menus:
+
   ![fields open](/src/assets/images/part6.png)
 
-- All fields filled
+- All fields filled:
+
   ![fields filled](/src/assets/images/part7.png)
-- message add a new task  
+
+- message add a new task:
+
   ![After create](/src/assets/images/part8.png)
-- message delete a new task
+
+- message delete a new task:
+
   ![Task](/src/assets/images/part9.png)
 
 # Decisions (About stack, project structure)
