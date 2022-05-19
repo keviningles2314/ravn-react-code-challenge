@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import wordsToNumbers from 'words-to-numbers';
 import { dayHandler } from '../../helper/dayHandler';
+import OptionButton from '../OptionButton';
 
 const TaskCard = ({ itemCard }) => {
   const itemDueDate = dayHandler(itemCard.dueDate);
@@ -22,7 +23,7 @@ const TaskCard = ({ itemCard }) => {
       <div className="flex w-full">
         <h1 className="text-[18px]">{itemCard.name}</h1>
         <div className="flex w-full justify-end">
-          <button>...</button>
+          <OptionButton taskId={itemCard.id} />
         </div>
       </div>
       <div className="flex w-full gap-5">
