@@ -2,9 +2,9 @@ import Modal from 'react-modal';
 import { useTasks } from '../../TasksContext';
 import { OPEN_MODAL } from '../../TasksContext/types';
 import { useQuery } from '@apollo/client';
-import { POINT_QUERY } from '../../graphql/request';
-import { USERS_QUERY } from '../../graphql/request';
-import { TAGS_QUERY } from '../../graphql/request';
+import { POINT_QUERY } from '../../graphql/queries';
+import { USERS_QUERY } from '../../graphql/queries';
+import { TAGS_QUERY } from '../../graphql/queries';
 import ListMenu from '../ListMenu';
 import DueDate from '../DueDate';
 import TagsList from '../TagsList';
@@ -17,8 +17,15 @@ const TaskModal = () => {
   const { data: pointsData, loading: pointLoading } = useQuery(POINT_QUERY);
   const { data: usersData, loading: userLoading } = useQuery(USERS_QUERY);
   const { data: tagsData, loading: tagLoading } = useQuery(TAGS_QUERY);
-  const { isOpenModal, dispatch, setDataForm, dataForm, emptyData } =
-    useTasks();
+  const {
+    isOpenModal,
+    dispatch,
+    setDataForm,
+    dataForm,
+    emptyData,
+    addTask,
+    refetch,
+  } = useTasks();
   const [isDataFilled, setIsDataFilled] = useState(false);
 
   useEffect(() => {
@@ -70,7 +77,10 @@ const TaskModal = () => {
 
   const handleSubmit = () => {
     if (isDataFilled) {
-      console.log(dataForm);
+      addTask();
+      emptyData();
+      dispatch({ type: OPEN_MODAL, payload: false });
+      refetch();
     }
   };
 

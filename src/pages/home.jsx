@@ -1,7 +1,9 @@
 import ColumnItem from '../components/ColumnItem';
 import Layout from '../components/layout';
+import { useTasks } from '../TasksContext';
 
 const Home = () => {
+  const { dataAdded } = useTasks();
   const statusArray = ['BACKLOG', 'CANCELLED', 'DONE', 'IN_PROGRESS', 'TODO'];
   return (
     <Layout>
@@ -15,6 +17,7 @@ const Home = () => {
             );
           })}
         </div>
+        {dataAdded && <h1>{dataAdded.createTask.name}</h1>}
       </div>
     </Layout>
   );

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import wordsToNumbers from 'words-to-numbers';
 import { dayHandler } from '../../helper/dayHandler';
 
 const TaskCard = ({ itemCard }) => {
@@ -7,7 +8,7 @@ const TaskCard = ({ itemCard }) => {
   const [timeStyle, setTimeStyle] = useState('');
 
   useEffect(() => {
-    if (itemDueDate === 'Yesterday') {
+    if (itemDueDate === 'Yesterday' && itemDueDate < new Date()) {
       setTimeStyle('text-[#DA584B] bg-red-500/10');
     } else if (itemDueDate === 'Today' || itemDueDate === 'Tomorrow') {
       setTimeStyle('text-[#E5B454] bg-yellow-500/10');
@@ -17,17 +18,21 @@ const TaskCard = ({ itemCard }) => {
   }, [itemDueDate]);
 
   return (
-    <div className="p-6 bg-[#2C2F33] flex flex-col w-80 gap-2.5 rounded-lg">
+    <div className="p-6 bg-[#2C2F33] flex flex-col w-96 gap-5 rounded-lg">
       <div className="flex w-full">
-        <h1>{itemCard.name}</h1>
+        <h1 className="text-[18px]">{itemCard.name}</h1>
         <div className="flex w-full justify-end">
           <button>...</button>
         </div>
       </div>
-      <div className="flex w-full">
-        <h1>{itemCard.pointEstimate}</h1>
-        <div className="flex w-full justify-end">
-          <button className={`flex p-2 gap-2.5 rounded-sm ${timeStyle}`}>
+      <div className="flex w-full gap-5">
+        <div className="flex flex-1">
+          <h1>{wordsToNumbers(itemCard.pointEstimate)} Points</h1>
+        </div>
+        <div className="flex flex-1 w-full justify-end">
+          <button
+            className={`flex  items-center p-2 gap-2.5 rounded-sm ${timeStyle}`}
+          >
             <svg
               width="22"
               height="20"

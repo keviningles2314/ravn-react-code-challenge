@@ -1,3 +1,4 @@
+import { useMutation } from '@apollo/client';
 import {
   createContext,
   useContext,
@@ -5,7 +6,8 @@ import {
   useReducer,
   useState,
 } from 'react';
-import { useGetTasks } from '../graphql/UseRequest';
+import { ADD_TASK_MUTATION } from '../graphql/mutations';
+import { useGetTasks } from '../hooks/UseRequest';
 import { tasksReducer } from './tasksReducer';
 import { SET_TASKS } from './types';
 
@@ -19,6 +21,7 @@ const TasksContext = createContext();
 
 export const TasksProvider = ({ children }) => {
   const [state, dispatch] = useReducer(tasksReducer, tasksInitialState);
+  const [dataAdded, setDataAdded] = useState('');
   const [dataForm, setDataForm] = useState({
     name: '',
     points: '',
@@ -28,7 +31,7 @@ export const TasksProvider = ({ children }) => {
     dueDate: new Date(),
   });
 
-  const { data, loading } = useGetTasks();
+  const { data, loading, refetch } = useGetTasks();
   useEffect(() => {
     dispatch({
       type: SET_TASKS,
@@ -47,12 +50,30 @@ export const TasksProvider = ({ children }) => {
     });
   };
 
+  const [addTask, { data: dataAdd }] = useMutation(ADD_TASK_MUTATION, {
+    variables: {
+      assignee: dataForm.assignee,
+      dueDate: dataForm.dueDate,
+      name: dataForm.name,
+      points: dataForm.points,
+      status: dataForm.status,
+      tags: dataForm.tags,
+    },
+    onCompleted: refetch,
+  });
+  useEffect(() => {
+    setDataAdded(dataAdd);
+  }, [dataAdd]);
+  console.log(dataAdded);
   const value = {
     ...state,
     dispatch,
     setDataForm,
     dataForm,
     emptyData,
+    addTask,
+    refetch,
+    dataAdded,
   };
   return (
     <TasksContext.Provider value={value}>{children}</TasksContext.Provider>
