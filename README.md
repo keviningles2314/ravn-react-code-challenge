@@ -72,11 +72,13 @@ Aside from the fact that is a web app using React i wanted to improve myself add
 
 In components i wanted to reuse some components so i adapted them to be more reusable, i use a layout to wrap the hole page so is more easy for me to change from one page to another but here i just have a dashboard page.
 
+I used context to handle global state insted of redux because i thought was not needed it is not a huge app where redux can bright so i wanted to earn some time using context.
+
 I had not worked with graphql too much but was a amazing challenge learn more about it i tried to do my best and organized the logic as i found on google.
 
 Tailwind was a easy way to apply style to react app, i like tailwind because i can use less code and i can earn time with the best result.
 
-I just finished the add feature and delete because i learned about react new technologies and packages as calendar, dropdown menu, how to use mutations with react, and others, it is not a perfect app but i tried to use best practices and provide quality.
+I just finished the add feature and delete because i learned about react technologies and packages as calendar, dropdown menu, how to use queries and mutations with react, and others, it is not a perfect app but i tried to use best practices and provide quality.
 
 # Technologies/libraries used
 
